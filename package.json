@@ -7,6 +7,7 @@
 		"node": ">=18.0.0"
 	},
 	"dependencies": {
+		"@langchain/anthropic": "^0.3.24",
 		"apify": "^3.4.2",
 		"axios": "^1.5.0",
 		"cheerio": "^1.0.0-rc.12"
@@ -14,6 +15,8 @@
 	"devDependencies": {
 		"@apify/eslint-config": "^1.0.0",
 		"@apify/tsconfig": "^0.1.1",
+		"@langchain/core": "^0.3.63",
+		"@langchain/langgraph": "^0.3.8",
 		"@types/node": "^22.15.32",
 		"apify-client": "^2.12.6",
 		"eslint": "^9.29.0",

@@ -7,6 +7,7 @@
 	"meta": {
 		"templateId": "ts-start"
 	},
+    "environmentVariables": { "ANTROPHIC_API_KEY": "@tweet-style-content-generator-antrophic-secret" },
 	"input": "./input_schema.json",
 	"dockerfile": "../Dockerfile"
 }

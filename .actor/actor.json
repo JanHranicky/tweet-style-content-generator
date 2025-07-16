@@ -1,0 +1,12 @@
+{
+	"actorSpecification": 1,
+	"name": "tweet-style-content-generator",
+	"title": "Tweet style content generator",
+	"description": "Generate X/Threads style tweet content of a given topic!",
+	"version": "0.0",
+	"meta": {
+		"templateId": "ts-start"
+	},
+	"input": "./input_schema.json",
+	"dockerfile": "../Dockerfile"
+}

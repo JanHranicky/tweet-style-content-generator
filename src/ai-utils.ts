@@ -1,10 +1,14 @@
 import { ChatAnthropic } from "@langchain/anthropic";
-import { HumanMessage } from "@langchain/core/messages";
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { SystemMessagePromptTemplate } from "@langchain/core/prompts";
+import { log } from "apify";
+import * as z from "zod";
 
 import { TEST_ARTICLE,TRANSFORM_INTO_TWEET_PROMPT } from "./prompts.js";
+import type { Input,webContent } from "./types.js";
 
 const { ANTROPHIC_API_KEY } = process.env;
+
 const model = new ChatAnthropic({
   model: "claude-opus-4-20250514",
   temperature: 0,
@@ -12,18 +16,34 @@ const model = new ChatAnthropic({
 });
 
 
+function chunks2promptString(chunks: webContent[]) {
+    const metaDataSeparator = "\n--------------------\n\n";
+    const chunkSeparator = "\n\n#######################\n\n";
 
+    const stringChunks = chunks.map(chunk => (`${JSON.stringify(chunk.metadata)}${metaDataSeparator}${chunk.markdown}`));
 
-export async function transformContextToTweet() {
-    const systemPromptTemplate = SystemMessagePromptTemplate.fromTemplate(TRANSFORM_INTO_TWEET_PROMPT);
-    const llmPrompt = await systemPromptTemplate.format({
-        targetAudience: "Aspiring solopreneurs building their first online business",
-        maxTweets: "3",
-        emojiUsage: "none"
-    });
-    console.log(llmPrompt);
+    return stringChunks.join(chunkSeparator);
+}
 
-    const result = await model.invoke([llmPrompt, new HumanMessage(TEST_ARTICLE)]);
-    console.log(result);
+export async function generateTweetFromWebContent(input: Input, contentChunks: webContent[]): any {
+    try {
+        // const TweetStructure = z.array(z.string());
+        // const structuredLlm = model.withStructuredOutput(TweetStructure);
+
+        const systemPromptTemplate = SystemMessagePromptTemplate.fromTemplate(TRANSFORM_INTO_TWEET_PROMPT);
+        const systemPrompt = await systemPromptTemplate.format({
+            targetLanguage: input.language,
+            targetAudience: input.audience,
+            maxTweets: input.maxTweets,
+            emojiUsage: input.emojiUsage,
+        });
+        console.log(systemPrompt)
+        const chunksMsg = chunks2promptString(contentChunks);
+
+        return await model.invoke([new SystemMessage(systemPrompt), new HumanMessage(chunksMsg)]);
+    } catch (error) {
+        log.error(`Error while generating tweets: ${error}`);
+        return [];
+    }
 }
 

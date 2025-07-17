@@ -1,18 +1,33 @@
-import { Actor } from 'apify';
+import { Actor,log } from 'apify';
 
-import { transformContextToTweet } from './ai-utils.js';
+import { generateTweetFromWebContent } from './ai-utils.js';
 import { validateInput } from './input.js';
 import { searchQuery } from './rag-web-search.js';
 import type { Input } from './types.js';
 
-await Actor.init();
+try {
+    await Actor.init();
 
-const originalInput = await Actor.getInput<Input>() ?? {} as Input;
-const validInput = validateInput(originalInput);
+    const originalInput = await Actor.getInput<Input>() ?? {} as Input;
+    const validInput = validateInput(originalInput);
 
-const tweetContexts = await searchQuery(validInput.query);
-console.log(tweetContexts);
+    const webContentChunks = await searchQuery(validInput.query);
+    const chunksLength = webContentChunks?.length;
 
-// await transformContextToTweet();
+    log.info(`Scrapped content contains ${chunksLength} entries`,webContentChunks);
+    if (chunksLength === 0)
+        throw new Error(`No data found while searching query ${validInput.query}`);
 
-await Actor.exit();
+    const structuredTweet = await generateTweetFromWebContent(validInput, webContentChunks);
+    const tweetLength = structuredTweet?.length ?? 0;
+    if (tweetLength === 0)
+        throw new Error(`No tweets were generated.`)
+
+    log.info(`Generated ${tweetLength} tweets`, structuredTweet);
+
+    // todo save them to apify dataset
+} catch (error) {
+    log.error(`Unhandeled error: ${error}`)
+} finally {
+    await Actor.exit();
+}

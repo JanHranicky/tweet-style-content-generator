@@ -1,6 +1,7 @@
+import { log } from 'apify';
 import { ApifyClient } from 'apify-client';
 
-import type { RagWebSearchInput, tweetContext } from './types.js';
+import type { RagWebSearchInput, webContent } from './types.js';
 
 const { APIFY_TOKEN } = process.env;
 
@@ -16,24 +17,26 @@ const ragWebSearchInput: RagWebSearchInput  = {
             [role="alertdialog"],
             [role="region"][aria-label*="skip" i],
             [aria-modal="true"]`,
-        "htmlTransformer": "extract only main content of the pages, no links or navigation. Remove excess newlines and whitespaces"
+        "htmlTransformer": "extract only main content of the pages, no links or navigation. Remove newlines, whitecharacters, any style characters. Compress the content for LLM"
     };
 
 
-export async function searchQuery(query: string): Promise<tweetContext[]> {
-    const client = new ApifyClient({
-        token: APIFY_TOKEN,
-    });
+export async function searchQuery(query: string): Promise<webContent[]> {
+    try {
+        const client = new ApifyClient({
+            token: APIFY_TOKEN,
+        });
 
-    ragWebSearchInput.query = query; // save user defined query to actors input
+        ragWebSearchInput.query = query; // save user defined query to actors input
 
-    const run = await client.actor("apify/rag-web-browser").call(ragWebSearchInput);
+        const run = await client.actor("apify/rag-web-browser").call(ragWebSearchInput);
 
-    const { items } = await client.dataset(run.defaultDatasetId).listItems();
-    items.forEach((item) => {
-        console.dir(item);
-    });
+        const { items } = await client.dataset(run.defaultDatasetId).listItems();
 
-    return items.map((item) => ({metadata: item.metadata, markdown: item.markdown} as tweetContext));
+        return items.map((item) => ({metadata: item.metadata, markdown: item.markdown} as webContent));
+    } catch (error) {
+        log.error(`Error while searching query: ${error}`);
+        return [];
+    }
 }
 

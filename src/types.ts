@@ -17,7 +17,7 @@ export type RagWebSearchInput = {
     htmlTransformer: "none" | string
 }
 
-export type tweetContext = {
+export type webContent = {
     metadata: string,
     markdown: string
 }

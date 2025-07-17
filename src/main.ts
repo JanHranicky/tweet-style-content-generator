@@ -27,7 +27,8 @@ try {
 
     await Actor.pushData(structuredTweet);
 } catch (error) {
-    log.error(`Unhandeled error: ${error}`)
+    log.error(`Unhandeled error: ${error}`);
+    throw error; // throw error to mark run as failed, finally block will get executed anyway
 } finally {
     await Actor.exit();
 }

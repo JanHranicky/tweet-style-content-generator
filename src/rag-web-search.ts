@@ -1,7 +1,7 @@
 import { log } from 'apify';
 import { ApifyClient } from 'apify-client';
 
-import type { RagWebSearchInput, webContent } from './types.js';
+import type { Input, RagWebSearchInput, webContent } from './types.js';
 
 const { APIFY_TOKEN } = process.env;
 
@@ -10,6 +10,7 @@ const ragWebSearchInput: RagWebSearchInput  = {
         "proxyConfiguration": {
             "useApifyProxy": true
         },
+        "maxResults": 3,
         "removeElementsCssSelector": `nav, footer, script, style, noscript, svg, img[src^='data:'], a[href],
             [role="alert"],
             [role="banner"],
@@ -21,13 +22,14 @@ const ragWebSearchInput: RagWebSearchInput  = {
     };
 
 
-export async function searchQuery(query: string): Promise<webContent[]> {
+export async function searchQuery(input: Input, query: string): Promise<webContent[]> {
     try {
         const client = new ApifyClient({
             token: APIFY_TOKEN,
         });
 
         ragWebSearchInput.query = query; // save user defined query to actors input
+        ragWebSearchInput.maxResults = input.maxResults; // save user defined query to actors input
 
         const run = await client.actor("apify/rag-web-browser").call(ragWebSearchInput);
 

@@ -4,8 +4,9 @@ import { SystemMessagePromptTemplate } from "@langchain/core/prompts";
 import { log } from "apify";
 import * as z from "zod";
 
-import { TEST_ARTICLE,TRANSFORM_INTO_TWEET_PROMPT } from "./prompts.js";
-import type { Input,webContent } from "./types.js";
+import { TRANSFORM_INTO_TWEET_PROMPT } from "./prompts.js";
+import type { Input,tweet,webContent } from "./types.js";
+import { tweetSchema } from "./types.js";
 
 const { ANTROPHIC_API_KEY } = process.env;
 
@@ -25,10 +26,9 @@ function chunks2promptString(chunks: webContent[]) {
     return stringChunks.join(chunkSeparator);
 }
 
-export async function generateTweetFromWebContent(input: Input, contentChunks: webContent[]): any {
+export async function generateTweetFromWebContent(input: Input, contentChunks: webContent[]): Promise<tweet> {
     try {
-        // const TweetStructure = z.array(z.string());
-        // const structuredLlm = model.withStructuredOutput(TweetStructure);
+        const structuredLlm = model.withStructuredOutput(tweetSchema);
 
         const systemPromptTemplate = SystemMessagePromptTemplate.fromTemplate(TRANSFORM_INTO_TWEET_PROMPT);
         const systemPrompt = await systemPromptTemplate.format({
@@ -37,13 +37,12 @@ export async function generateTweetFromWebContent(input: Input, contentChunks: w
             maxTweets: input.maxTweets,
             emojiUsage: input.emojiUsage,
         });
-        console.log(systemPrompt)
         const chunksMsg = chunks2promptString(contentChunks);
 
-        return await model.invoke([new SystemMessage(systemPrompt), new HumanMessage(chunksMsg)]);
+        return await structuredLlm.invoke([new SystemMessage(systemPrompt), new HumanMessage(chunksMsg)]);
     } catch (error) {
         log.error(`Error while generating tweets: ${error}`);
-        return [];
+        return {} as tweet;
     }
 }
 

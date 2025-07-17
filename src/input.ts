@@ -40,5 +40,12 @@ export function validateInput(input: Input): Input {
         throw new Error(`maxTweets has to be in range 0<maxTweets<=${inputSchema.properties.maxTweets.maximum}`);
     }
 
+    if (!input.maxResults) {
+        input.maxResults = inputSchema.properties.maxResults.default;
+        log.info(`input maxResults not set, setting to default value: ${input.maxResults}`);
+    } else if (input.maxResults <= 0 || input.maxResults > inputSchema.properties.maxResults.maximum) {
+        throw new Error(`maxResults has to be in range 0<maxResults<=${inputSchema.properties.maxResults.maximum}`);
+    }
+
     return input;
 }

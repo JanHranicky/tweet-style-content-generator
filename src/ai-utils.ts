@@ -1,8 +1,9 @@
 import { ChatAnthropic } from "@langchain/anthropic";
+// eslint-disable-next-line import/extensions
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
+// eslint-disable-next-line import/extensions
 import { SystemMessagePromptTemplate } from "@langchain/core/prompts";
 import { log } from "apify";
-import * as z from "zod";
 
 import { TRANSFORM_INTO_TWEET_PROMPT } from "./prompts.js";
 import type { Input,tweet,webContent } from "./types.js";

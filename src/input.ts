@@ -5,7 +5,7 @@ import type { Input } from "./types.js";
 
 const { APIFY_TOKEN, ANTROPHIC_API_KEY } = process.env;
 
-export function validateInput(input: Partial<Input>) {
+export function validateInput(input: Input): Input {
     /* eslint-disable no-param-reassign */
     if (!APIFY_TOKEN)
         throw new Error("Please set APIFY_TOKEN as an enviroment variable");

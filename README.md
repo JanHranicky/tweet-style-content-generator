@@ -29,6 +29,20 @@ The actor accepts the following JSON input, more detailed description can be fou
 }
 ```
 
+### Example input
+
+```json
+{
+  "audience": "Informed, Time-conscious, News-driven, Nonpartisan, Urban",
+  "emojiUsage": "light",
+  "language": "english",
+  "maxResults": 3,
+  "maxTweets": 3,
+  "query": "https://ct24.ceskatelevize.cz/clanek/svet/eu-se-shodla-na-baliku-protiruskych-sankci-slovensko-ustoupilo-363092",
+  "scrapperMemoryLimit": 4096
+}
+```
+
 ## Output
 
 ```json
@@ -37,6 +51,22 @@ The actor accepts the following JSON input, more detailed description can be fou
     "tweets": "generated tweets as a single string",
     "tweet_array": "array of generated tweets where each entry is 1 /X entry"
 }
+```
+
+### Example output
+
+```json
+[
+  {
+    "num_of_tweets": 3,
+    "tweets": "1/3 🚨 BREAKING: EU approves 18th sanctions package against Russia after Slovakia drops its blockade. The new measures target Russia's energy & banking sectors, cutting deeper into Putin's war machine. This is one of the toughest packages yet. 💪\n\n2/3 Key measures include: \n• Oil price cap slashed from $60 to ~$47.6/barrel 🛢️\n• 105 more shadow fleet vessels sanctioned 🚢\n• Nord Stream infrastructure banned from future use\n• Czech-backed mechanism to prevent sanctions evasion\n\n3/3 EU's message is clear: pressure on Russia will only increase until the war ends. As EU's Kallas stated: \"We're targeting the heart of Russia's war machine.\" Ukraine welcomes the move as it \"increases pressure where it matters most.\" 🇪🇺🇺🇦 Read more :https://ct24.ceskatelevize.cz/clanek/svet/eu-se-shodla-na-baliku-protiruskych-sankci-slovensko-ustoupilo-363092",
+    "tweet_array": [
+      "1/3 🚨 BREAKING: EU approves 18th sanctions package against Russia after Slovakia drops its blockade. The new measures target Russia's energy & banking sectors, cutting deeper into Putin's war machine. This is one of the toughest packages yet. 💪",
+      "2/3 Key measures include: \n• Oil price cap slashed from $60 to ~$47.6/barrel 🛢️\n• 105 more shadow fleet vessels sanctioned 🚢\n• Nord Stream infrastructure banned from future use\n• Czech-backed mechanism to prevent sanctions evasion",
+      "3/3 EU's message is clear: pressure on Russia will only increase until the war ends. As EU's Kallas stated: \"We're targeting the heart of Russia's war machine.\" Ukraine welcomes the move as it \"increases pressure where it matters most.\" 🇪🇺🇺🇦 Read more :https://ct24.ceskatelevize.cz/clanek/svet/eu-se-shodla-na-baliku-protiruskych-sankci-slovensko-ustoupilo-363092"
+    ]
+  }
+]
 ```
 
 ## Use Cases

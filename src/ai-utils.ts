@@ -17,7 +17,11 @@ const model = new ChatAnthropic({
   apiKey: ANTROPHIC_API_KEY
 });
 
-
+/**
+ * Transforms input type @type {webContent[]} into @type {string} and returns it.
+ * @param {webContent[]} chunks
+ * @returns {string}
+ */
 function chunks2promptString(chunks: webContent[]) {
     const metaDataSeparator = "\n--------------------\n\n";
     const chunkSeparator = "\n\n#######################\n\n";
@@ -27,6 +31,12 @@ function chunks2promptString(chunks: webContent[]) {
     return stringChunks.join(chunkSeparator);
 }
 
+/**
+ * Prompts claude-opus-4-20250514 model using langchain to transform crawled web content into structurialized tweet
+ * @param {Input} input
+ * @param {webContent[]} contentChunks
+ * @returns {Promise<tweet>}
+ */
 export async function generateTweetFromWebContent(input: Input, contentChunks: webContent[]): Promise<tweet> {
     try {
         const structuredLlm = model.withStructuredOutput(tweetSchema);

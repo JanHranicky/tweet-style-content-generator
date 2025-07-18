@@ -53,5 +53,12 @@ export function validateInput(input: Input): Input {
         throw new Error(`maxResults has to be in range 0<maxResults<=${inputSchema.properties.maxResults.maximum}`);
     }
 
+    if (!input.scrapperMemoryLimit) {
+        input.scrapperMemoryLimit = inputSchema.properties.scrapperMemoryLimit.default;
+        log.info(`input maxResults not set, setting to default value: ${input.scrapperMemoryLimit}`);
+    } else if (Math.log2(input.scrapperMemoryLimit) % 1 !== 0) {
+        throw new Error(`scrapperMemoryLimit has to be power of 2, such as 1024, 2048, 4096, ...`);
+    }
+
     return input;
 }

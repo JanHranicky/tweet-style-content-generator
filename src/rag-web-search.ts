@@ -1,4 +1,5 @@
 import { log } from 'apify';
+import type { ActorStartOptions} from 'apify-client';
 import { ApifyClient } from 'apify-client';
 
 import type { Input, RagWebSearchInput, webContent } from './types.js';
@@ -18,9 +19,8 @@ const ragWebSearchInput: RagWebSearchInput  = {
             [role="alertdialog"],
             [role="region"][aria-label*="skip" i],
             [aria-modal="true"]`,
-        "htmlTransformer": "extract only main content of the pages, no links or navigation. Remove newlines, whitecharacters, any style characters. Compress the content for LLM"
+        "htmlTransformer": "extract only main content of the pages, no links or navigation. Remove newlines, whitecharacters, any style characters. Compress the content for LLM",
     };
-
 
 /**
  * runs apify's rag-web-browser actor to crawl the web for given query. Returns an array of queried data
@@ -34,10 +34,14 @@ export async function searchQuery(input: Input, query: string): Promise<webConte
             token: APIFY_TOKEN,
         });
 
+        const ragWebSearchOptions: ActorStartOptions = {
+            memory: input.scrapperMemoryLimit
+        }
+
         ragWebSearchInput.query = query; // save user defined query to actors input
         ragWebSearchInput.maxResults = input.maxResults; // save user defined query to actors input
 
-        const run = await client.actor("apify/rag-web-browser").call(ragWebSearchInput);
+        const run = await client.actor("apify/rag-web-browser").call(ragWebSearchInput, ragWebSearchOptions);
 
         const { items } = await client.dataset(run.defaultDatasetId).listItems();
 

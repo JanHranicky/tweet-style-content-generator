@@ -52,6 +52,13 @@
             "default": 3,
             "minimum": 1,
             "maximum": 10
+        },
+        "scrapperMemoryLimit": {
+            "title": "Memory limit of the RAG web scrapper",
+            "type": "integer",
+            "description": "set memory limit of the scrapper actor. Memory limits of (tweet-style-content-generator)+(rag-web-browser) need to be <= your memory limit",
+            "default": 4096,
+            "minimum": 1024
         }
     },
     "required": ["query"]

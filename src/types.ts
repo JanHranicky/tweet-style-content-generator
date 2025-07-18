@@ -7,6 +7,7 @@ export type Input = {
     emojiUsage: string,
     maxTweets: number,
     maxResults: number,
+    scrapperMemoryLimit: number
 };
 
 export type RagProxyConfiguration = {

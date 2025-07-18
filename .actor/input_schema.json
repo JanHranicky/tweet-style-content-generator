@@ -42,6 +42,7 @@
             "type": "integer",
             "description": "enter a maximum number of chained tweets (1/X, 2/X, ...) generated",
             "default": 3,
+            "minimum": 1,
             "maximum": 10
         },
         "maxResults": {
@@ -49,6 +50,7 @@
             "type": "integer",
             "description": "enter a maximum number of results returned by the RAG web browser",
             "default": 3,
+            "minimum": 1,
             "maximum": 10
         }
     },

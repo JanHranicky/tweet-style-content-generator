@@ -1,20 +1,20 @@
-# Generate Tweet-Style Content Using Apify Actor
+# Generate Tweet-Style Content with an Apify Actor 🚀
 
-This repository contains an Apify Actor designed to automatically generate tweet-style content based on an input query or URL. The actor crawls the specified input, extracts relevant content, and utilizes a Large Language Model (LLM) to generate concise social media-style text. The generated content is returned in a structured format and stored in an Apify dataset.
-
----
-
-## Features
-
-- Crawl web pages from a given URL or keyword query.
-- Extract relevant textual data for content generation.
-- Generate tweet-style summaries using an LLM.
-- Output structured results in JSON format.
-- Save results automatically to the Apify dataset.
+This Apify Actor automatically generates tweet-style content based on any input query or URL. It crawls the web, extracts relevant info, and uses a powerful Large Language Model (LLM) to craft concise, social-media-ready posts. Results are returned in a structured format and saved directly to your Apify dataset.
 
 ---
 
-## Input
+## 💡 Features
+
+- Crawl web pages using a URL or keyword search
+- Extract key text content automatically
+- Generate tweet-style summaries with AI
+- Output clean, structured JSON
+- Store everything in an Apify dataset for easy access
+
+---
+
+## 📥 Input
 
 The actor accepts the following JSON input, more detailed description can be found in [file](.actor/input_schema.json):
 
@@ -69,8 +69,8 @@ The actor accepts the following JSON input, more detailed description can be fou
 ]
 ```
 
-## Use Cases
-- Automated social media content creation.
-- Summary generation for marketing or newsletters.
-- Content repurposing from blog posts or articles.
-- Enhancing SEO and engagement through concise summaries.
+🔥 Use Cases
+- Auto-generate social media posts from web content
+- Summarize news or articles into quick, digestible tweets
+- Repurpose blog content for better reach and engagement
+- Boost SEO and content distribution with minimal effort

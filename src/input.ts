@@ -8,8 +8,8 @@ const { APIFY_TOKEN, ANTROPHIC_API_KEY } = process.env;
 /**
  * Gets actors input and validates it, fills non mandatory data with default values if they were passed in empty.
  * Throws an exception if there are missing mandatory inputs or if some inputs are not valid
- * @param {Input} input input the actor was initialized with
- * @returns {Input} validated and defaulted input
+ * @param input input the actor was initialized with
+ * @returns validated and defaulted input
  */
 export function validateInput(input: Input): Input {
     /* eslint-disable no-param-reassign */

@@ -24,9 +24,9 @@ const ragWebSearchInput: RagWebSearchInput  = {
 
 /**
  * runs apify's rag-web-browser actor to crawl the web for given query. Returns an array of queried data
- * @param {Input} input tweet-style-content-generator actor's input
- * @param {string} query user defined query, either single url or a phrase
- * @returns {Promise<webContent[]>} content array of crawled websites
+ * @param input tweet-style-content-generator actor's input
+ * @param query user defined query, either single url or a phrase
+ * @returns content array of crawled websites
  */
 export async function searchQuery(input: Input, query: string): Promise<webContent[]> {
     try {

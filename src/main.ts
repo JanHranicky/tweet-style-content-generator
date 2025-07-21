@@ -19,12 +19,12 @@ try {
     const chunksLength = webContentChunks?.length;
 
     log.info(`Scrapped content contains ${chunksLength} entries`,webContentChunks);
-    if (chunksLength === 0)
+    if (!chunksLength)
         throw new Error(`No data found while searching query ${validInput.query}`);
 
     const structuredTweet = await generateTweetFromWebContent(validInput, webContentChunks);
     const tweetLength = structuredTweet?.num_of_tweets ?? 0;
-    if (tweetLength === 0)
+    if (!tweetLength)
         throw new Error(`No tweets were generated.`)
 
     log.info(`Generated ${tweetLength} tweets`, structuredTweet);

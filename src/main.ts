@@ -8,7 +8,11 @@ import type { Input } from './types.js';
 try {
     await Actor.init();
 
-    const originalInput = await Actor.getInput<Input>() ?? {} as Input;
+    const originalInput = await Actor.getInput<Input>();
+    if (!originalInput) {
+        throw new Error("Actor input cannot be empty!");
+    }
+
     const validInput = validateInput(originalInput);
 
     const webContentChunks = await searchQuery(validInput, validInput.query);

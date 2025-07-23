@@ -71,7 +71,7 @@ async function triggerLlmApiUsageEvent(model: string, tokensUsed: number): Promi
 }
 
 /**
- * Prompts claude-opus-4-20250514 model using langchain to transform crawled web content into structurialized tweet
+ * Prompts selected model using langchain to transform crawled web content into structurialized tweet
  * @param input
  * @param contentChunks
  * @returns generated tweets

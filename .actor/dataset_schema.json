@@ -1,0 +1,60 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "title": "TweetSchema",
+        "type": "object",
+        "properties": {
+            "num_of_tweets": {
+                "type": "number",
+                "description": "Number of generated tweets"
+            },
+            "tweets": {
+                "type": "string",
+                "description": "tweets in a single string"
+            },
+            "tweet_array": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "tweets where each element is a single tweet"
+            }
+        },
+        "required": [
+            "num_of_tweets",
+            "tweets",
+            "tweet_array"
+        ],
+        "additionalProperties": false
+    },
+    "views": {
+        "overview": {
+            "title": "Overview",
+            "transformation": {
+                "fields": [
+                    "num_of_tweets",
+                    "tweets",
+                    "tweet_array"
+                ]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "num_of_tweets": {
+                        "label": "Number of tweets",
+                        "format": "text"
+                    },
+                    "tweets": {
+                        "label": "Tweets",
+                        "format": "text"
+                    },
+                    "tweet_array": {
+                        "label": "Tweet array",
+                        "format": "array"
+                    }
+                }
+            }
+        }
+    }
+}

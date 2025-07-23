@@ -44,9 +44,9 @@ export async function searchQuery(input: Input, query: string): Promise<WebConte
 
         await Actor.charge({ eventName: MonetizationEvents.RAG_WEB_SEARCH });
 
-        const { items } = await client.dataset(run.defaultDatasetId).listItems();
+        const { items } = await client.dataset<WebContent>(run.defaultDatasetId).listItems();
 
-        return items.map((item) => ({ metadata: item.metadata, markdown: item.markdown } as WebContent));
+        return items.map((item) => ({ metadata: item.metadata, markdown: item.markdown }));
     } catch (error) {
         log.error(`Error while searching query: ${error}`);
         return [];

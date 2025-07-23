@@ -61,13 +61,13 @@ class TokenUsageHandler extends BaseCallbackHandler {
 }
 
 async function triggerLlmApiUsageEvent(model: string, tokensUsed: number): Promise<void> {
-    log.info(`${model} API call used ${tokensUsed} input tokens`);
+    log.info(`🧮 [triggerLlmApiUsageEvent] "${model}" munched through ${tokensUsed} input tokens!`);
     const count = Math.ceil(tokensUsed / TEN_THOUSAND);
     const eventName = model2MonetizationEvent[model];
 
-    log.info(`about to charge event ${eventName}: ${count} time/s`);
-
+    log.info(`💸 [triggerLlmApiUsageEvent] Charging event "${eventName}" ${count} time(s) for LLM wizardry!`);
     await Actor.charge({ eventName, count });
+    log.info(`✅ [triggerLlmApiUsageEvent] Monetization event "${eventName}" charged successfully.`);
 }
 
 /**
@@ -77,8 +77,12 @@ async function triggerLlmApiUsageEvent(model: string, tokensUsed: number): Promi
  * @returns generated tweets
  */
 export async function generateTweetFromWebContent(input: Input, contentChunks: WebContent[]): Promise<tweet> {
+    log.info(`🐦✨ [generateTweetFromWebContent] Time to turn web wisdom into tweet magic!`);
+    log.info(`🛠️ [generateTweetFromWebContent] Settings: Model="${input.llmModel}", Language="${input.language}", Audience="${input.audience}", MaxTweets=${input.maxTweets}, EmojiUsage="${input.emojiUsage}"`);
     try {
         const model = initializeModel(input.llmModel);
+        log.info(`🤖 [generateTweetFromWebContent] Model "${input.llmModel}" is booted up and ready to tweet!`);
+
         const structuredLlm = model.withStructuredOutput(tweetSchema);
 
         const systemPromptTemplate = SystemMessagePromptTemplate.fromTemplate(TRANSFORM_INTO_TWEET_PROMPT);
@@ -88,19 +92,26 @@ export async function generateTweetFromWebContent(input: Input, contentChunks: W
             maxTweets: input.maxTweets,
             emojiUsage: input.emojiUsage,
         });
-        const chunksMsg = chunks2promptString(contentChunks);
+        log.debug(`📝 [generateTweetFromWebContent] Crafted system prompt for the LLM: ${systemPrompt}`);
 
-        const tokenUsageHandler = new TokenUsageHandler()
+        const chunksMsg = chunks2promptString(contentChunks);
+        log.info(`📦 [generateTweetFromWebContent] Packing ${contentChunks.length} content chunks into a ${chunksMsg.length}-character message for the LLM!`);
+
+        const tokenUsageHandler = new TokenUsageHandler();
+        log.info(`🧠 [generateTweetFromWebContent] Sending prompt to the LLM... Fingers crossed for tweet brilliance!`);
         const res = await structuredLlm.invoke([new SystemMessage(systemPrompt), new HumanMessage(chunksMsg)], {
             callbacks: [tokenUsageHandler]
         });
 
+        log.info(`🔢 [generateTweetFromWebContent] LLM used ${tokenUsageHandler.totalInputTokensUsed} tokens to cook up some tweets!`);
+        log.debug(`🧾 [generateTweetFromWebContent] LLM response sneak peek: ${JSON.stringify(res).slice(0, 500)}...`);
+
         await triggerLlmApiUsageEvent(input.llmModel, tokenUsageHandler.totalInputTokensUsed);
 
+        log.info(`🎉 [generateTweetFromWebContent] Tweets are hot off the press and ready to fly!`);
         return res;
     } catch (error) {
-        log.error(`Error while generating tweets: ${error} `);
+        log.error(`💥 [generateTweetFromWebContent] Yikes! Tweet generation crashed: ${error instanceof Error ? error.stack : error}`);
         return {} as tweet;
     }
 }
-

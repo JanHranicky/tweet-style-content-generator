@@ -15,6 +15,7 @@ const { APIFY_TOKEN } = process.env;
 */
 export async function searchQuery(input: Input, query: string): Promise<WebContent[]> {
     try {
+        log.info(`🔎 [searchQuery] Searching the web for: "${query}"... Hold tight!`);
         const ragWebSearchInput: RagWebSearchInput = {
             "query": query, // save user defined query to actors input
             "proxyConfiguration": {
@@ -39,16 +40,18 @@ export async function searchQuery(input: Input, query: string): Promise<WebConte
             memory: input.scrapperMemoryLimit
         }
 
-
+        log.info(`🌐 [searchQuery] Launching Apify RAG Web Browser Actor...`);
         const run = await client.actor("apify/rag-web-browser").call(ragWebSearchInput, ragWebSearchOptions);
 
         await Actor.charge({ eventName: MonetizationEvents.RAG_WEB_SEARCH });
 
         const { items } = await client.dataset<WebContent>(run.defaultDatasetId).listItems();
 
+        log.info(`📄 [searchQuery] Fetched ${items.length} content items from the web!`);
+
         return items.map((item) => ({ metadata: item.metadata, markdown: item.markdown }));
     } catch (error) {
-        log.error(`Error while searching query: ${error}`);
+        log.error(`💥 [searchQuery] Web search failed: ${error}`);
         return [];
     }
 }

@@ -6,15 +6,15 @@ import { SystemMessagePromptTemplate } from '@langchain/core/prompts';
 import { log } from "apify";
 
 import { TRANSFORM_INTO_TWEET_PROMPT } from './prompts.js';
-import type { Input,tweet,webContent } from './types.js';
+import type { Input, tweet, webContent } from './types.js';
 import { tweetSchema } from './types.js';
 
 const { ANTROPHIC_API_KEY } = process.env;
 
 const model = new ChatAnthropic({
-  model: "claude-opus-4-20250514",
-  temperature: 0,
-  apiKey: ANTROPHIC_API_KEY
+    model: "claude-opus-4-20250514",
+    temperature: 0,
+    apiKey: ANTROPHIC_API_KEY
 });
 
 /**

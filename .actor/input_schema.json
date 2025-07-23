@@ -34,8 +34,16 @@
             "description": "enter a quantity of emojis used in generated post",
             "editor": "select",
             "default": "light",
-            "enum": ["none", "light", "heavy"],
-            "enumTitles": ["None", "Light", "Heavy"]
+            "enum": [
+                "none",
+                "light",
+                "heavy"
+            ],
+            "enumTitles": [
+                "None",
+                "Light",
+                "Heavy"
+            ]
         },
         "maxTweets": {
             "title": "Maximum number of tweets",
@@ -61,5 +69,7 @@
             "minimum": 1024
         }
     },
-    "required": ["query"]
+    "required": [
+        "query"
+    ]
 }

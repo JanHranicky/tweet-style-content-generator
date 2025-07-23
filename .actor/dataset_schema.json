@@ -6,22 +6,26 @@
         "type": "object",
         "properties": {
             "num_of_tweets": {
-            "type": "number",
-            "description": "Number of generated tweets"
+                "type": "number",
+                "description": "Number of generated tweets"
             },
             "tweets": {
-            "type": "string",
-            "description": "tweets in a single string"
+                "type": "string",
+                "description": "tweets in a single string"
             },
             "tweet_array": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            },
-            "description": "tweets where each element is a single tweet"
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "tweets where each element is a single tweet"
             }
         },
-        "required": ["num_of_tweets", "tweets", "tweet_array"],
+        "required": [
+            "num_of_tweets",
+            "tweets",
+            "tweet_array"
+        ],
         "additionalProperties": false
     },
     "views": {
@@ -54,4 +58,3 @@
         }
     }
 }
-

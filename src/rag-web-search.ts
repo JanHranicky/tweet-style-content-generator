@@ -1,8 +1,8 @@
-import { log } from 'apify';
+import { Actor, log } from 'apify';
 import type { ActorStartOptions } from 'apify-client';
 import { ApifyClient } from 'apify-client';
 
-import type { Input, RagWebSearchInput, webContent } from './types.js';
+import { type Input, MonetizationEvents, type RagWebSearchInput, type WebContent } from './types.js';
 
 const { APIFY_TOKEN } = process.env;
 
@@ -13,7 +13,7 @@ const { APIFY_TOKEN } = process.env;
  * @param query user defined query, either single url or a phrase
  * @returns content array of crawled websites
 */
-export async function searchQuery(input: Input, query: string): Promise<webContent[]> {
+export async function searchQuery(input: Input, query: string): Promise<WebContent[]> {
     try {
         const ragWebSearchInput: RagWebSearchInput = {
             "query": query, // save user defined query to actors input
@@ -42,9 +42,11 @@ export async function searchQuery(input: Input, query: string): Promise<webConte
 
         const run = await client.actor("apify/rag-web-browser").call(ragWebSearchInput, ragWebSearchOptions);
 
+        await Actor.charge({ eventName: MonetizationEvents.RAG_WEB_SEARCH });
+
         const { items } = await client.dataset(run.defaultDatasetId).listItems();
 
-        return items.map((item) => ({ metadata: item.metadata, markdown: item.markdown } as webContent));
+        return items.map((item) => ({ metadata: item.metadata, markdown: item.markdown } as WebContent));
     } catch (error) {
         log.error(`Error while searching query: ${error}`);
         return [];

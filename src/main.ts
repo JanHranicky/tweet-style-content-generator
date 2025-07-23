@@ -3,7 +3,7 @@ import { Actor, log } from 'apify';
 import { generateTweetFromWebContent } from './ai-utils.js';
 import { validateInput } from './input.js';
 import { searchQuery } from './rag-web-search.js';
-import type { Input } from './types.js';
+import { type Input, MonetizationEvents } from './types.js';
 
 await Actor.init();
 
@@ -13,6 +13,8 @@ if (!originalInput) {
 }
 
 const validInput = validateInput(originalInput);
+
+await Actor.charge({ eventName: MonetizationEvents.ACTOR_START });
 
 const webContentChunks = await searchQuery(validInput, validInput.query);
 const chunksLength = webContentChunks?.length;

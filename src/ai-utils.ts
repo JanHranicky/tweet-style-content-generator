@@ -1,6 +1,10 @@
 import { ChatAnthropic } from '@langchain/anthropic';
 // eslint-disable-next-line import/extensions
+import { BaseCallbackHandler } from '@langchain/core/callbacks/base';
+// eslint-disable-next-line import/extensions
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
+// eslint-disable-next-line import/extensions
+import type { LLMResult } from '@langchain/core/outputs';
 // eslint-disable-next-line import/extensions
 import { SystemMessagePromptTemplate } from '@langchain/core/prompts';
 import { log } from "apify";
@@ -10,12 +14,6 @@ import type { Input, tweet, webContent } from './types.js';
 import { tweetSchema } from './types.js';
 
 const { ANTROPHIC_API_KEY } = process.env;
-
-const model = new ChatAnthropic({
-    model: "claude-opus-4-20250514",
-    temperature: 0,
-    apiKey: ANTROPHIC_API_KEY
-});
 
 /**
  * Transforms input type @type {webContent[]} into @type {string} and returns it.
@@ -32,6 +30,37 @@ function chunks2promptString(chunks: webContent[]): string {
 }
 
 /**
+ * Initializes user selected llm model
+ * @param model
+ * @returns
+ */
+function initializeModel(model: string): ChatAnthropic {
+    return new ChatAnthropic({
+        model,
+        temperature: 0,
+        apiKey: ANTROPHIC_API_KEY
+    });
+}
+
+class TokenUsageHandler extends BaseCallbackHandler {
+    name = "token_usage_handler";
+    public totalInputTokensUsed = 0;
+
+    /**
+     * Used to count number of input tokens per call.
+     * @param output
+     */
+    override handleLLMEnd(output: LLMResult) {
+        const numOfInputTokens = output.llmOutput?.usage?.input_tokens ?? 0;
+        this.totalInputTokensUsed += numOfInputTokens;
+    }
+}
+
+function triggerLlmApiUsageEvent(model: string, tokensUsed: number): void {
+    log.info(`${model} API call used ${tokensUsed} input tokens`)
+}
+
+/**
  * Prompts claude-opus-4-20250514 model using langchain to transform crawled web content into structurialized tweet
  * @param input
  * @param contentChunks
@@ -39,6 +68,7 @@ function chunks2promptString(chunks: webContent[]): string {
  */
 export async function generateTweetFromWebContent(input: Input, contentChunks: webContent[]): Promise<tweet> {
     try {
+        const model = initializeModel(input.llmModel);
         const structuredLlm = model.withStructuredOutput(tweetSchema);
 
         const systemPromptTemplate = SystemMessagePromptTemplate.fromTemplate(TRANSFORM_INTO_TWEET_PROMPT);
@@ -50,7 +80,14 @@ export async function generateTweetFromWebContent(input: Input, contentChunks: w
         });
         const chunksMsg = chunks2promptString(contentChunks);
 
-        return await structuredLlm.invoke([new SystemMessage(systemPrompt), new HumanMessage(chunksMsg)]);
+        const tokenUsageHandler = new TokenUsageHandler()
+        const res = await structuredLlm.invoke([new SystemMessage(systemPrompt), new HumanMessage(chunksMsg)], {
+            callbacks: [tokenUsageHandler]
+        });
+
+        triggerLlmApiUsageEvent(input.llmModel, tokenUsageHandler.totalInputTokensUsed);
+
+        return res;
     } catch (error) {
         log.error(`Error while generating tweets: ${error}`);
         return {} as tweet;

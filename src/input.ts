@@ -39,6 +39,13 @@ export function validateInput(input: Input): Input {
         throw new Error(`emojiUsage has to be one of ${inputSchema.properties.emojiUsage.enum.join(",")}`)
     }
 
+    if (!input.llmModel) {
+        input.llmModel = inputSchema.properties.llmModel.default;
+        log.info(`input llmModel not set, setting to default value: ${input.llmModel}`);
+    } else if (!inputSchema.properties.llmModel.enum.includes(input.llmModel)) {
+        throw new Error(`llmModel has to be one of ${inputSchema.properties.llmModel.enum.join(",")}`)
+    }
+
     if (!input.maxTweets) {
         input.maxTweets = inputSchema.properties.maxTweets.default;
         log.info(`input maxTweets not set, setting to default value: ${input.maxTweets}`);

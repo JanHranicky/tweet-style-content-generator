@@ -8,6 +8,7 @@ export type Input = {
     maxTweets: number,
     maxResults: number,
     scrapperMemoryLimit: number
+    llmModel: string
 };
 
 export type RagProxyConfiguration = {

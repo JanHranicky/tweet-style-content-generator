@@ -67,6 +67,23 @@
             "description": "set memory limit of the scrapper actor. Memory limits of (tweet-style-content-generator)+(rag-web-browser) need to be <= your memory limit",
             "default": 4096,
             "minimum": 1024
+        },
+        "llmModel": {
+            "title": "LLM Model",
+            "type": "string",
+            "description": "enter llm model used to generate tweet, each model is priced differently see pay-per-event pricing",
+            "editor": "select",
+            "default": "claude-3-5-haiku-latest",
+            "enum": [
+                "claude-opus-4-20250514",
+                "claude-sonnet-4-20250514",
+                "claude-3-5-haiku-latest"
+            ],
+            "enumTitles": [
+                "Claude Opus 4",
+                "Claude Sonnet 4",
+                "Claude Haiku 3.5"
+            ]
         }
     },
     "required": [

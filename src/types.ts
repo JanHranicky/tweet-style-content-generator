@@ -30,7 +30,7 @@ export type WebContent = {
 
 export const tweetSchema = z.object({
     num_of_tweets: z.number().describe("Number of generated tweets"),
-    tweets: z.string().describe("tweets in a single string"),
+    tweets: z.string().describe("tweets joined in a single string"),
     tweet_array: z.array(z.string()).describe("tweets where each element is a single tweet")
 });
 export type tweet = z.infer<typeof tweetSchema>

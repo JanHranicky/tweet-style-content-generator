@@ -12,6 +12,12 @@ This Apify Actor automatically generates tweet-style content based on any input 
 - Output clean, structured JSON
 - Store everything in an Apify dataset for easy access
 
+## 🔥 Use Cases
+
+- Auto-generate social media posts from web content
+- Summarize news or articles into quick, digestible tweets
+- Repurpose blog content for better reach and engagement
+- Boost SEO and content distribution with minimal effort
 ---
 
 ## 📥 Input
@@ -20,7 +26,7 @@ The actor accepts the following JSON input, more detailed description can be fou
 
 ```json
 {
-  "query": "Example topic to search",
+    "query": "Example topic to search",
   "language": "name of the target language, e.g. czech",
   "audience": "description of the target audience for LLM",
   "emojiUsage": "one of None,Light,Heavy",
@@ -69,8 +75,3 @@ The actor accepts the following JSON input, more detailed description can be fou
 ]
 ```
 
-🔥 Use Cases
-- Auto-generate social media posts from web content
-- Summarize news or articles into quick, digestible tweets
-- Repurpose blog content for better reach and engagement
-- Boost SEO and content distribution with minimal effort

@@ -21,3 +21,4 @@ storage/key_value_stores/default/*
 
 # Added by Apify CLI
 .venv
+config.bat

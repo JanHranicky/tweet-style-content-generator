@@ -44,7 +44,7 @@ The actor accepts the following JSON input, more detailed description can be fou
   "language": "english",
   "maxResults": 3,
   "maxTweets": 3,
-  "query": "https://ct24.ceskatelevize.cz/clanek/svet/eu-se-shodla-na-baliku-protiruskych-sankci-slovensko-ustoupilo-363092",
+  "query": "https://apify.com/jan.hranicky/tweet-style-content-generator",
   "scrapperMemoryLimit": 4096
 }
 ```
@@ -65,11 +65,12 @@ The actor accepts the following JSON input, more detailed description can be fou
 [
   {
     "num_of_tweets": 3,
-    "tweets": "1/3 🚨 BREAKING: EU approves 18th sanctions package against Russia after Slovakia drops its blockade. The new measures target Russia's energy & banking sectors, cutting deeper into Putin's war machine. This is one of the toughest packages yet. 💪\n\n2/3 Key measures include: \n• Oil price cap slashed from $60 to ~$47.6/barrel 🛢️\n• 105 more shadow fleet vessels sanctioned 🚢\n• Nord Stream infrastructure banned from future use\n• Czech-backed mechanism to prevent sanctions evasion\n\n3/3 EU's message is clear: pressure on Russia will only increase until the war ends. As EU's Kallas stated: \"We're targeting the heart of Russia's war machine.\" Ukraine welcomes the move as it \"increases pressure where it matters most.\" 🇪🇺🇺🇦 Read more :https://ct24.ceskatelevize.cz/clanek/svet/eu-se-shodla-na-baliku-protiruskych-sankci-slovensko-ustoupilo-363092",
+    "tweets": "1/3 🚀 Discover the ultimate content creation hack: Tweet Style Content Generator on Apify! Turn any link or topic into viral-ready tweets with AI magic ✨ 2/3 This tool is a game-changer for content creators 💡 Automatically crawl web pages, extract key info, and generate tweet-style summaries in seconds. Perfect for bloggers, marketers, and social media pros! 3/3 Want to boost your social media game effortlessly? Check out the Tweet Style Content Generator on Apify and transform your content strategy! 🔥 https://apify.com/jan.hranicky/tweet-style-content-generator
+",
     "tweet_array": [
-      "1/3 🚨 BREAKING: EU approves 18th sanctions package against Russia after Slovakia drops its blockade. The new measures target Russia's energy & banking sectors, cutting deeper into Putin's war machine. This is one of the toughest packages yet. 💪",
-      "2/3 Key measures include: \n• Oil price cap slashed from $60 to ~$47.6/barrel 🛢️\n• 105 more shadow fleet vessels sanctioned 🚢\n• Nord Stream infrastructure banned from future use\n• Czech-backed mechanism to prevent sanctions evasion",
-      "3/3 EU's message is clear: pressure on Russia will only increase until the war ends. As EU's Kallas stated: \"We're targeting the heart of Russia's war machine.\" Ukraine welcomes the move as it \"increases pressure where it matters most.\" 🇪🇺🇺🇦 Read more :https://ct24.ceskatelevize.cz/clanek/svet/eu-se-shodla-na-baliku-protiruskych-sankci-slovensko-ustoupilo-363092"
+        "1/3 🚀 Discover the ultimate content creation hack: Tweet Style Content Generator on Apify! Turn any link or topic into viral-ready tweets with AI magic ✨",
+        "2/3 This tool is a game-changer for content creators 💡 Automatically crawl web pages, extract key info, and generate tweet-style summaries in seconds. Perfect for bloggers, marketers, and social media pros!",
+        "3/3 Want to boost your social media game effortlessly? Check out the Tweet Style Content Generator on Apify and transform your content strategy! 🔥 https://apify.com/jan.hranicky/tweet-style-content-generator"
     ]
   }
 ]

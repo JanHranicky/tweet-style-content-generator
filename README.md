@@ -39,7 +39,7 @@ The actor accepts the following JSON input, more detailed description can be fou
 
 ```json
 {
-    "audience": "Informed, Time-conscious, News-driven, Nonpartisan, Urban",
+    "audience": "casual",
     "emojiUsage": "light",
     "language": "english",
     "maxResults": 3,

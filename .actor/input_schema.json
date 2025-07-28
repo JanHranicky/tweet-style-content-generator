@@ -24,8 +24,8 @@
             "title": "Target audience of the content",
             "type": "string",
             "description": "enter a description of the target audience that will be passed into the LLM",
-            "prefill": "causal",
-            "default": "causal",
+            "prefill": "casual",
+            "default": "casual",
             "editor": "textfield"
         },
         "emojiUsage": {
